@@ -13,6 +13,7 @@ export async function generateStaticParams(): Promise<GeneratedPath[]> {
 	const generatedPathsWithLocales: GeneratedPath[] = [
         {lang: 'en', slug: []}, 
         {lang: 'en', slug: ['example']}, 
+        {lang: 'en', slug: ['blog']},
         {lang: 'en', slug: ['blog', 'post-1']},
         {lang: 'en', slug: ['blog', 'post-2']},
     ];
