@@ -9,7 +9,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         console.log(`Revalidating path: /${slug.join('/')}`);
 
         // Revalidate the specified path
-        await revalidatePath(`/${slug.join('/')}`, "page");
+        await revalidatePath(`/${slug.join('/')}`);
 
         return NextResponse.json({ message: `Path /${slug.join('/')} revalidated successfully` });
     } catch (error) {
