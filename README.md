@@ -14,7 +14,7 @@ We now want to invalidate the cache for one specific page. In a real app this wo
 
 Note: if sending a POST request from postman or bruno to Vercel, you'll need to add an `x-vercel-protection-bypass` deployment protection token on the header.
 
-In the deployment's logs, confirm that the `revalidate` route was hit. Now visit the revalidated page, in this case `/en/blog`. Look at the logs and you'll see that a Vercel function was used to render the page (i.e. the page was re-rendered).
+In the deployment's logs, confirm that the `revalidate` route was hit. Now visit the revalidated page, in this case `/en/blog`. Look at the logs and you'll see that a Vercel function instance was used to render the page (i.e. the page was re-rendered).
 
 Now visit a prerendered subpage like `/en/blog/post-1`. Observe the logs, this page is also re-rendered which is behaviour we don't want.
 
