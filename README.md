@@ -1,36 +1,20 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Testing the revalidation behaviour of this nextjs 15 project's internationalised + optional catch all routes.
 
-## Getting Started
+The project pre-renders 5 pages at build time using `generateStaticParams`.
 
-First, run the development server:
+All routes are composed of `lang` and `slug` segments.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+After the build completes and the app is started, we expect all pre-rendered pages to be served statically. This is the case.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+We now want to invalidate the cache for one specific page. In a real app this would happen autimatically after some data update. Here, we have two methods to trigger the revalidation; using the text box on the `/revalidation` page, or sending a POST request to `/api/revalidate` with a body like this:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+{
+  "slug": ["en","blog"]
+}
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Note: if sending a POST request from postman or bruno to Vercel, you'll need to add an `x-vercel-protection-bypass` deployment protection token on the header.
 
-## Learn More
+In the deployment's logs, confirm that the `revalidate` route was hit. Now visit the revalidated page, in this case `/en/blog`. Look at the logs and you'll see that a Vercel function was used to render the page (i.e. the page was re-rendered).
 
-To learn more about Next.js, take a look at the following resources:
+Now visit a prerendered subpage like `/en/blog/post-1`. Observe the logs, this page is also re-rendered which is behaviour we don't want.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
